@@ -61,6 +61,18 @@ public class LivroController extends Controller {
         
         view.render();
     }
+    public void removerUmLivro(int id) {
+        Livro livro = Livro.findOne(id, Livro.class);
+        
+        if (livro != null) {
+            livro.deletar();
+            System.out.println("Livro removido com sucesso.");
+        }
+    }
+    public boolean verificarExistenciaLivro(int id) {
+        Livro livro = Livro.findOne(id, Livro.class);
+        return livro != null;
+    }
     
     public void guardar(LivroDTO livroDTO) {
         Livro livro = new Livro(livroDTO.getTitulo(), livroDTO.getDescricao());

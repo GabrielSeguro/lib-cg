@@ -1,6 +1,11 @@
 
 package org.libcg.models;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import org.libcg.core.Model;
 
 public class Livro extends Model<Livro> {
@@ -52,5 +57,21 @@ public class Livro extends Model<Livro> {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+    public void deletar() {
+        // Configuração com o db em memória
+        String url = "jdbc:h2:~/lib_db"; 
+        
+        try (Connection conexao = DriverManager.getConnection(url)) {
+            // Deleta o livro usando  SQL
+            String sql = "DELETE FROM Livro WHERE id = ?";
+            try (PreparedStatement declaracao = conexao.prepareStatement(sql)) {
+                declaracao.setInt(1, this.id);
+                declaracao.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            
+        }
     }
 }

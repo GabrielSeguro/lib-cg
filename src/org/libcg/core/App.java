@@ -2,6 +2,7 @@ package org.libcg.core;
 
 import java.sql.*;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import org.libcg.database.DbInit;
 
@@ -10,7 +11,9 @@ public class App {
     private static AppProvider provider;
     private Map<String, Object> instances;
     
-    private App() {}
+    private App() {
+        instances = new HashMap<>();
+    }
     
     public static App getInstance() {
         if (App.instance == null) {

@@ -6,18 +6,35 @@ import org.libcg.core.View;
 public class MenuPrincipalScreen extends View {
     @Override
     public void render() {
-        System.out.println("Bem vindo a loja virtual da Biblioteca CG!");
-        System.out.println("Digite 1 para acessar a area de livros");
-        System.out.println("Digite 0 para sair");
-        System.out.println("=====================================");
-        System.out.print("> ");
-        int opcao = this.scanner.nextInt();
-        
+        boolean sairDoSistema = false;
         LivroController livroController = this.app.make(LivroController.class);
-        
-        switch(opcao) {
-            case 1 -> livroController.principal();
-            default -> System.out.println("Saindo...");
+
+        while (!sairDoSistema) {
+            System.out.println("Bem vindo a loja virtual da Biblioteca CG!");
+            System.out.println("Digite 1 para acessar a área de livros");
+            System.out.println("Digite 2 para remover um livro");
+            System.out.println("Digite 0 para sair");
+            System.out.println("=====================================");
+            System.out.print("> ");
+            int opcao = this.scanner.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    livroController.principal();
+                    break;
+                case 2:
+                    System.out.println("Insira o número do livro que você quer remover do sistema:");
+                    int id = this.scanner.nextInt();
+                    livroController.removerUmLivro(id);
+                    break;
+                case 0:
+                    System.out.println("Saindo...");
+                    sairDoSistema = true;
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+            }
         }
     }
 }
