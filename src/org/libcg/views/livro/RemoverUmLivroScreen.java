@@ -1,5 +1,7 @@
 package org.libcg.views.livro;
 
+import java.sql.SQLException;
+
 import org.libcg.controllers.LivroController;
 import org.libcg.core.View;
 import org.libcg.dto.LivroDTO;
@@ -15,7 +17,12 @@ public class RemoverUmLivroScreen extends View {
         LivroController livroController = this.app.make(LivroController.class);
         
         if (livroController.verificarExistenciaLivro(id)) {
-            livroController.removerUmLivro(id);
+            try {
+                livroController.removerUmLivro(id);
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             System.out.println("Livro removido com sucesso!");
         } else {
             System.out.println("Livro não encontrado.");

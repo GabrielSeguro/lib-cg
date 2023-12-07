@@ -8,18 +8,20 @@ public class CadastraLivroScreen extends View {
 
     @Override
     public void render() {
-        System.out.print("Digite o titulo do livro: ");
-        String titulo = this.scanner.nextLine();
+        System.out.print("Digite o título do livro: ");
+        String tituloDoLivro = this.scanner.nextLine();
         System.out.println("");
-        System.out.print("Digite a descricao do livro: ");
-        String descricao = this.scanner.nextLine();
+        System.out.print("Digite a descrição do livro: ");
+        String descricaoDoLivro = this.scanner.nextLine();
         System.out.println("");
-        
-        LivroDTO livro = new LivroDTO(titulo, descricao);
-        
-        LivroController livroController = this.app.make(LivroController.class);
-        
-        livroController.guardar(livro);
-        livroController.principal();
-    }
+        System.out.print("Digite o nome do autor do livro a ser cadastrado: ");
+        String autorDoLivro = this.scanner.nextLine();
+        System.out.println("");
+            LivroDTO livro = new LivroDTO(tituloDoLivro, descricaoDoLivro, autorDoLivro);
+
+            LivroController livroController = this.app.make(LivroController.class);
+
+            livroController.guardar(livro);
+            livroController.principal();
+        }
 }

@@ -1,5 +1,6 @@
 package org.libcg.controllers;
 
+import java.sql.SQLException;
 import java.util.List;
 import org.libcg.core.Controller;
 import org.libcg.dto.LivroDTO;
@@ -26,7 +27,8 @@ public class LivroController extends Controller {
                         livro.getId(), 
                         livro.getTitulo(), 
                         livro.getDescricao(), 
-                        livro.estaEmprestado()
+                        livro.estaEmprestado(),
+                        livro.getAutor()
                 )).toList();
         
         ListaLivroScreen view = new ListaLivroScreen(livroDTO);
@@ -40,7 +42,8 @@ public class LivroController extends Controller {
                         livro.getId(), 
                         livro.getTitulo(), 
                         livro.getDescricao(), 
-                        livro.estaEmprestado()
+                        livro.estaEmprestado(),
+                        livro.getAutor()
         );
         
         MostraLivroScreen view = new MostraLivroScreen(livroDTO);
@@ -50,7 +53,7 @@ public class LivroController extends Controller {
     
     public void emprestar(LivroDTO livroDTO) {
         Livro livro = Livro.findOne(livroDTO.getId(), Livro.class);
-        
+        System.out.println("\"Autor do livro cadastrado:" + livro.getAutor());
         livro.emprestar();
         
         livro.save();
@@ -61,7 +64,7 @@ public class LivroController extends Controller {
         
         view.render();
     }
-    public void removerUmLivro(int id) {
+    public void removerUmLivro(int id) throws SQLException {
         Livro livro = Livro.findOne(id, Livro.class);
         
         if (livro != null) {
@@ -73,12 +76,13 @@ public class LivroController extends Controller {
         Livro livro = Livro.findOne(id, Livro.class);
         return livro != null;
     }
-    public void atualizaUmLivroCasoExista(int id, String novoTituloParaOLivro, String novaDescricaoParaOLivro) {
+    public void atualizaUmLivroCasoExista(int id, String novoTituloParaOLivro, String novaDescricaoParaOLivro, String novoAutorParaOLivro) {
         Livro livro = Livro.findOne(id, Livro.class);
         
         if (livro != null) {
             livro.setTitulo(novoTituloParaOLivro);
             livro.setDescricao(novaDescricaoParaOLivro);
+            livro.setAutor(novoAutorParaOLivro);
             livro.save();
             System.out.println("Livro atualizado com sucesso!");
         } else {
@@ -87,8 +91,7 @@ public class LivroController extends Controller {
     }
     
     public void guardar(LivroDTO livroDTO) {
-        Livro livro = new Livro(livroDTO.getTitulo(), livroDTO.getDescricao());
-        
+        Livro livro = new Livro(livroDTO.getTitulo(), livroDTO.getDescricao(), livroDTO.getAutor());
         livro.save();
     }
 }

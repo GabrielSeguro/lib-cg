@@ -1,5 +1,7 @@
 package org.libcg.views.menu;
 
+import java.sql.SQLException;
+
 import org.libcg.controllers.LivroController;
 import org.libcg.core.View;
 
@@ -26,7 +28,12 @@ public class MenuPrincipalScreen extends View {
                 case 2:
                     System.out.println("Insira o número do livro que você quer remover do sistema:");
                     int id = this.scanner.nextInt();
-                    livroController.removerUmLivro(id);
+                    try {
+                        livroController.removerUmLivro(id);
+                    } catch (SQLException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     break;
                     case 3:
                     System.out.println("Insira o número do livro que você quer atualizar:");
@@ -34,12 +41,14 @@ public class MenuPrincipalScreen extends View {
                     this.scanner.nextLine(); 
                     
                     System.out.println("Digite o novo título:");
-                    String novoTitulo = this.scanner.nextLine();
+                    String novoTituloCadastro = this.scanner.nextLine();
                     
                     System.out.println("Digite a nova descrição:");
-                    String novaDescricao = this.scanner.nextLine();
+                    String novaDescricaoCadastro = this.scanner.nextLine();
+                    System.out.println("Digite um novo autor:");
+                    String novoAutorCadastro = this.scanner.nextLine();
                     
-                    livroController.atualizaUmLivroCasoExista(idAtualizar, novoTitulo, novaDescricao);
+                    livroController.atualizaUmLivroCasoExista(idAtualizar, novoTituloCadastro, novaDescricaoCadastro, novoAutorCadastro);
                     break;             
                 case 0:
                     System.out.println("Saindo...");

@@ -1,25 +1,27 @@
-
 package org.libcg.models;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import org.libcg.core.Model;
 
 public class Livro extends Model<Livro> {
     private Integer id;
     private String titulo;
     private String descricao;
+
+    private String autor;
     private Boolean emprestado;
     
     public Livro() { super(); }
-    public Livro(String titulo, String descricao) {
+    public Livro(String titulo, String descricao, String autor) {
         super();
         
         this.titulo = titulo;
         this.descricao = descricao;
+        this.autor = autor;
         this.emprestado = false;
     }
     
@@ -58,20 +60,27 @@ public class Livro extends Model<Livro> {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    public void deletar() {
-        // Configuração com o db em memória
-        String url = "jdbc:h2:~/lib_db"; 
-        
-        try (Connection conexao = DriverManager.getConnection(url)) {
-            // Deleta o livro usando  SQL
-            String sql = "DELETE FROM Livro WHERE id = ?";
-            try (PreparedStatement declaracao = conexao.prepareStatement(sql)) {
-                declaracao.setInt(1, this.id);
-                declaracao.executeUpdate();
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public void deletar() throws SQLException {
+        if (id != null) {
+            try (Connection connection = DriverManager.getConnection("jdbc:h2:~/lib_db")) {
+                String sql = "DELETE FROM Livro WHERE id = ?";
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setInt(1, id);
+                    int rowsDeleted = statement.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            
         }
     }
+
 }
