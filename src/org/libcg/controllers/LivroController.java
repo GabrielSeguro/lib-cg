@@ -73,6 +73,18 @@ public class LivroController extends Controller {
         Livro livro = Livro.findOne(id, Livro.class);
         return livro != null;
     }
+    public void atualizaUmLivroCasoExista(int id, String novoTituloParaOLivro, String novaDescricaoParaOLivro) {
+        Livro livro = Livro.findOne(id, Livro.class);
+        
+        if (livro != null) {
+            livro.setTitulo(novoTituloParaOLivro);
+            livro.setDescricao(novaDescricaoParaOLivro);
+            livro.save();
+            System.out.println("Livro atualizado com sucesso!");
+        } else {
+            System.out.println("Livro não encontrado.");
+        }
+    }
     
     public void guardar(LivroDTO livroDTO) {
         Livro livro = new Livro(livroDTO.getTitulo(), livroDTO.getDescricao());
